@@ -1,23 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Layout,
-  Form,
-  Input,
-  DatePicker,
-  Button,
-  Select,
-  Upload,
-  Steps,
-  Avatar,
-  message,
-} from "antd";
+import { Layout, Form, Input, Button, Steps, Avatar, message } from "antd";
 import { UserOutlined, BellOutlined, SettingOutlined } from "@ant-design/icons";
 import "./App.css";
 import { throttle } from "lodash";
+import CampaignSetting from "./components/CampaignSetting";
+import AdGroupSetting from "./components/AdGroupSetting";
+import AdSetting from "./components/AdSetting";
+import Summary from "./components/Summary";
 
 const { Header, Content, Sider } = Layout;
 const { Step } = Steps;
-const { Option } = Select;
 
 const App = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -202,138 +194,5 @@ const App = () => {
     </Layout>
   );
 };
-
-const CampaignSetting = () => (
-  <div>
-    <h2>Campaign Setting</h2>
-    <Form.Item
-      name="campaignName"
-      label="Campaign name"
-      rules={[{ required: true, message: "Please enter a campaign name!" }]}
-      className="section-form"
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="campaignSchedule"
-      label="Campaign schedule"
-      rules={[{ required: true }]}
-      className="section-form"
-    >
-      <DatePicker.RangePicker />
-    </Form.Item>
-    <Form.Item
-      name="campaignBudget"
-      label="Campaign budget"
-      rules={[{ required: true, message: "Please enter a budget!" }]}
-      className="section-form"
-    >
-      <Input type="number" />
-    </Form.Item>
-  </div>
-);
-
-const AdGroupSetting = () => (
-  <div>
-    <h2>Ad Group Setting</h2>
-    <Form.Item
-      name="adGroupName"
-      label="Ad group name"
-      rules={[{ required: true, message: "Please enter an ad group name!" }]}
-      className="section-form"
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="adImage"
-      label="Ad Image"
-      rules={[{ required: true, message: "Please select an image!" }]}
-      className="section-form"
-    >
-      <Upload>
-        <Button>Select Options</Button>
-      </Upload>
-    </Form.Item>
-  </div>
-);
-
-const AdSetting = () => {
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-
-  const checkPreviewVisibility = (values) => {
-    if (
-      values.adImage &&
-      values.publisherList &&
-      values.publisherList.length > 0
-    ) {
-      setIsPreviewVisible(true);
-    } else {
-      setIsPreviewVisible(false);
-    }
-  };
-
-  return (
-    <div>
-      <h2>Ad Setting</h2>
-      <Form
-        layout="vertical"
-        onValuesChange={(_, values) => checkPreviewVisibility(values)}
-      >
-        <div className="ad-setting-container">
-          <div className="left-column">
-            <Form.Item
-              name="adImage"
-              label="Ad Image"
-              rules={[
-                { required: true, message: "Please select an ad image!" },
-              ]}
-              className="section-form"
-            >
-              <Upload>
-                <Button>Select Image</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item
-              name="publisherList"
-              label="Publisher list"
-              rules={[{ required: true, message: "Please select publishers!" }]}
-              className="section-form"
-            >
-              <Select mode="multiple" placeholder="Select publishers">
-                <Option value="publisher1">Publisher 1</Option>
-                <Option value="publisher2">Publisher 2</Option>
-                <Option value="publisher3">Publisher 3</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item label="Ad placement" className="section-form">
-              <Select defaultValue="full">
-                <Option value="full">Full platform</Option>
-                <Option value="filter">Filter by category</Option>
-              </Select>
-            </Form.Item>
-          </div>
-
-          <div className="right-column">
-            {isPreviewVisible && (
-              <div className="preview-section">
-                <h3>Preview</h3>
-                <p>Here you can preview the selected ad settings and images.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </Form>
-    </div>
-  );
-};
-
-const Summary = () => (
-  <div>
-    <h2>Summary</h2>
-    <p>Summary Content</p>
-  </div>
-);
 
 export default App;
